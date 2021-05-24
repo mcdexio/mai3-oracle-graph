@@ -1,0 +1,6 @@
+{
+    "network": "kovan",
+    "factory_address": "0x0956a627788199bE312c9a1f2d8cBA70ec30fCb5",
+    "start_block": 24195648,
+    "handler_block": 24806000
+}

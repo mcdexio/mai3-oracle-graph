@@ -1,0 +1,66 @@
+type Factory @entity {
+    oracles: [String!]
+    hourTimestamp: Int
+    minTimestamp: Int
+}
+
+type OraclePrice @entity {
+    # oracle address
+    id: ID!
+    price: BigDecimal!
+}
+
+type PriceMinData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}
+
+type Price15MinData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}
+
+type PriceHourData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}
+
+type PriceDayData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}
+
+type PriceSevenDayData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}

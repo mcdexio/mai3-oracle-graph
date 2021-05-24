@@ -1,0 +1,51 @@
+specVersion: 0.0.2
+description: mai3-oracle-graph
+repository: https://github.com/mcdexio/mai3-oracle-graph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Factory
+    network: {{network}}
+    source:
+      address: '{{factory_address}}'
+      abi: Factory
+      startBlock: {{start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Factory
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+        - name: Oracle
+          file: ./abis/Oracle.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: CreateLiquidityPool(bytes32,indexed address,indexed address,indexed address,address,address,uint256,bytes)
+          handler: handleCreateLiquidityPool
+      blockHandlers:
+        - handler: handleOraclePrice
+      file: ./src/factory.ts
+templates:
+  - kind: ethereum/contract
+    name: LiquidityPool
+    network: {{network}}
+    source:
+      abi: LiquidityPool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - OraclePrice
+      abis:
+        - name: LiquidityPool
+          file: ./abis/LiquidityPool.json
+      eventHandlers:
+        - event: CreatePerpetual(uint256,address,address,address,address,address,int256[9],int256[8])
+          handler: handleCreatePerpetual
+      file: ./src/liquidityPool.ts
