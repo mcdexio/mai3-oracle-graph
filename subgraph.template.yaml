@@ -22,14 +22,12 @@ dataSources:
           file: ./abis/Factory.json
         - name: Oracle
           file: ./abis/Oracle.json
-        - name: ERC20
-          file: ./abis/ERC20.json
       eventHandlers:
         - event: CreateLiquidityPool(bytes32,indexed address,indexed address,indexed address,address,address,uint256,bytes)
           handler: handleCreateLiquidityPool
       blockHandlers:
         - handler: handleOraclePrice
-      file: ./src/factory.ts
+      file: ./src/price.ts
 templates:
   - kind: ethereum/contract
     name: LiquidityPool
@@ -48,4 +46,4 @@ templates:
       eventHandlers:
         - event: CreatePerpetual(uint256,address,address,address,address,address,int256[9],int256[8])
           handler: handleCreatePerpetual
-      file: ./src/liquidityPool.ts
+      file: ./src/price.ts

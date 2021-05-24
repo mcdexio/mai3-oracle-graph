@@ -13,10 +13,10 @@ import {
 import { HANDLER_BLOCK } from './const'
 
 export const FACTORY = "mcdex"
-export let ZERO_BI = BigInt.fromI32(0)
-export let ONE_BI = BigInt.fromI32(1)
-export let ZERO_BD = BigDecimal.fromString('0')
-export let BI_18 = BigInt.fromI32(18)
+let ZERO_BI = BigInt.fromI32(0)
+let ONE_BI = BigInt.fromI32(1)
+let ZERO_BD = BigDecimal.fromString('0')
+let BI_18 = BigInt.fromI32(18)
 
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {

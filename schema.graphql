@@ -1,4 +1,5 @@
 type Factory @entity {
+    id: ID!
     oracles: [String!]
     hourTimestamp: Int
     minTimestamp: Int
