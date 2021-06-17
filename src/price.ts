@@ -4,7 +4,10 @@ import { Factory, OraclePrice, PriceMinData, Price15MinData, PriceHourData, Pric
 import { Oracle as OracleContract } from '../generated/Factory/Oracle'
 
 import { CreateLiquidityPool } from '../generated/Factory/Factory'
-import { CreatePerpetual } from '../generated/templates/LiquidityPool/LiquidityPool'
+import { 
+    CreatePerpetual,
+    SetOracle as SetOracleEvent,
+} from '../generated/templates/LiquidityPool/LiquidityPool'
 
 import { 
     LiquidityPool as LiquidityPoolTemplate,
@@ -65,6 +68,20 @@ export function handleCreatePerpetual(event: CreatePerpetual): void {
     let oracles = factory.oracles
     if (!isOracleAdded(oracles as string[], oracleAddress)) {
         oracles.push(oracleAddress)
+        factory.oracles = oracles
+        factory.save()
+    }
+}
+
+export function handleSetOracle(event: SetOracleEvent): void {
+    let factory = Factory.load(FACTORY)
+    if (factory === null) {
+        return
+    }
+    let newOracle = event.params.newOracle.toHexString()
+    let oracles = factory.oracles
+    if (!isOracleAdded(oracles as string[], newOracle)) {
+        oracles.push(newOracle)
         factory.oracles = oracles
         factory.save()
     }
