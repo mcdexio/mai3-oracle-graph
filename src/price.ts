@@ -21,6 +21,7 @@ let ONE_BI = BigInt.fromI32(1)
 let ZERO_BD = BigDecimal.fromString('0')
 let BI_18 = BigInt.fromI32(18)
 
+export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
     let bd = BigDecimal.fromString('1')
@@ -65,6 +66,9 @@ export function handleCreatePerpetual(event: CreatePerpetual): void {
         return
     }
     let oracleAddress = event.params.oracle.toHexString()
+    if (oracleAddress == ADDRESS_ZERO) {
+        return
+    }
     let oracles = factory.oracles
     if (!isOracleAdded(oracles as string[], oracleAddress)) {
         oracles.push(oracleAddress)
@@ -79,6 +83,9 @@ export function handleSetOracle(event: SetOracleEvent): void {
         return
     }
     let newOracle = event.params.newOracle.toHexString()
+    if (newOracle == ADDRESS_ZERO) {
+        return
+    }
     let oracles = factory.oracles
     if (!isOracleAdded(oracles as string[], newOracle)) {
         oracles.push(newOracle)
