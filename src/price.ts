@@ -171,12 +171,12 @@ function updatePriceData(oracle: String, timestamp: i32): void {
     // 5Min
     let fiveminIndex = timestamp / (60*5)
     let fiveminStartUnix = fiveminIndex * (60*5)
-    let fiiveminPriceID = oracle
+    let fiveminPriceID = oracle
     .concat('-')
     .concat(BigInt.fromI32(fiveminIndex).toString())
-    let price5MinData = Price5MinData.load(fiiveminPriceID)
+    let price5MinData = Price5MinData.load(fiveminPriceID)
     if (price5MinData === null) {
-        price5MinData = new Price15MinData(fiiveminPriceID)
+        price5MinData = new Price5MinData(fiveminPriceID)
         price5MinData.oracle = oracle
         price5MinData.open = price
         price5MinData.close = price
