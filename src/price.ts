@@ -155,7 +155,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceMinData.low = price
         priceMinData.timestamp = minStartUnix
 
-        let preMinIndex = minIndex-60
+        let preMinIndex = minIndex-1
         let preMinData = PriceMinData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(preMinIndex).toString())
@@ -184,7 +184,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         price5MinData.low = price
         price5MinData.timestamp = fiveminStartUnix
         
-        let pre5MinIndex = fiveminIndex-300
+        let pre5MinIndex = fiveminIndex-1
         let pre5MinData = Price5MinData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(pre5MinIndex).toString())
@@ -219,7 +219,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         price15MinData.low = price
         price15MinData.timestamp = fifminStartUnix
 
-        let pre15MinIndex = fifminIndex-900
+        let pre15MinIndex = fifminIndex-1
         let pre15MinData = Price15MinData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(pre15MinIndex).toString())
@@ -253,7 +253,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceHourData.low = price
         priceHourData.timestamp = hourStartUnix
 
-        let preHourIndex = hourIndex-3600
+        let preHourIndex = hourIndex-1
         let preHourData = PriceHourData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(preHourIndex).toString())
@@ -287,7 +287,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceDayData.low = price
         priceDayData.timestamp = dayStartUnix
 
-        let preDayIndex = dayIndex-(3600*24)
+        let preDayIndex = dayIndex-1
         let preDayData = PriceDayData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(preDayIndex).toString())
@@ -321,7 +321,7 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceSevenDayData.low = price
         priceSevenDayData.timestamp = sevenDayStartUnix
 
-        let preSevenDayIndex = sevenDayIndex-(3600*24*7)
+        let preSevenDayIndex = sevenDayIndex-1
         let preSevenDayData = PriceSevenDayData.load(oracle
             .concat('-')
             .concat(BigInt.fromI32(preSevenDayIndex).toString())
