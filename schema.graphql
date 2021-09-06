@@ -22,6 +22,17 @@ type PriceMinData @entity {
     timestamp: Int
 }
 
+type Price5MinData @entity {
+    # oracle address + "-" + timeindex
+    id: ID!
+    oracle: String!
+    open: BigDecimal!
+    close: BigDecimal!
+    low: BigDecimal!
+    high: BigDecimal!
+    timestamp: Int
+}
+
 type Price15MinData @entity {
     # oracle address + "-" + timeindex
     id: ID!

@@ -1,6 +1,6 @@
 import { TypedMap, BigInt, BigDecimal, ethereum, log, Address } from "@graphprotocol/graph-ts"
 
-import { Factory, OraclePrice, PriceMinData, Price15MinData, PriceHourData, PriceDayData, PriceSevenDayData } from '../generated/schema'
+import { Factory, OraclePrice, PriceMinData, Price5MinData, Price15MinData, PriceHourData, PriceDayData, PriceSevenDayData } from '../generated/schema'
 import { Oracle as OracleContract } from '../generated/Factory/Oracle'
 
 import { CreateLiquidityPool } from '../generated/Factory/Factory'
@@ -154,10 +154,53 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceMinData.high = price
         priceMinData.low = price
         priceMinData.timestamp = minStartUnix
+
+        let preMinIndex = minIndex-60
+        let preMinData = PriceMinData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(preMinIndex).toString())
+        )
+        if (preMinData != null) {
+            priceMinData.open = preMinData.close
+        }
         priceMinData.save()
     } else {
         return
     }
+
+    // 5Min
+    let fiveminIndex = timestamp / (60*5)
+    let fiveminStartUnix = fiveminIndex * (60*5)
+    let fiiveminPriceID = oracle
+    .concat('-')
+    .concat(BigInt.fromI32(fiveminIndex).toString())
+    let price5MinData = Price5MinData.load(fiiveminPriceID)
+    if (price5MinData === null) {
+        price5MinData = new Price15MinData(fiiveminPriceID)
+        price5MinData.oracle = oracle
+        price5MinData.open = price
+        price5MinData.close = price
+        price5MinData.high = price
+        price5MinData.low = price
+        price5MinData.timestamp = fiveminStartUnix
+        
+        let pre5MinIndex = fiveminIndex-300
+        let pre5MinData = Price5MinData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(pre5MinIndex).toString())
+        )
+        if (pre5MinData != null) {
+            price5MinData.open = pre5MinData.close
+        }
+    } else {
+        price5MinData.close = price
+        if (price5MinData.high < price) {
+            price5MinData.high = price
+        } else if(price5MinData.low > price) {
+            price5MinData.low = price
+        }
+    }
+    price5MinData.save()
 
     // 15Min
     let fifminIndex = timestamp / (60*15)
@@ -175,6 +218,15 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         price15MinData.high = price
         price15MinData.low = price
         price15MinData.timestamp = fifminStartUnix
+
+        let pre15MinIndex = fifminIndex-900
+        let pre15MinData = Price15MinData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(pre15MinIndex).toString())
+        )
+        if (pre15MinData != null) {
+            price15MinData.open = pre15MinData.close
+        }
     } else {
         price15MinData.close = price
         if (price15MinData.high < price) {
@@ -200,6 +252,15 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceHourData.high = price
         priceHourData.low = price
         priceHourData.timestamp = hourStartUnix
+
+        let preHourIndex = hourIndex-3600
+        let preHourData = PriceHourData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(preHourIndex).toString())
+        )
+        if (preHourData != null) {
+            priceHourData.open = preHourData.close
+        }
     } else {
         priceHourData.close = price
         if (priceHourData.high < price) {
@@ -225,6 +286,15 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceDayData.high = price
         priceDayData.low = price
         priceDayData.timestamp = dayStartUnix
+
+        let preDayIndex = dayIndex-(3600*24)
+        let preDayData = PriceDayData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(preDayIndex).toString())
+        )
+        if (preDayData != null) {
+            priceDayData.open = preDayData.close
+        }
     } else {
         priceDayData.close = price
         if (priceDayData.high < price) {
@@ -250,6 +320,15 @@ function updatePriceData(oracle: String, timestamp: i32): void {
         priceSevenDayData.high = price
         priceSevenDayData.low = price
         priceSevenDayData.timestamp = sevenDayStartUnix
+
+        let preSevenDayIndex = sevenDayIndex-(3600*24*7)
+        let preSevenDayData = PriceSevenDayData.load(oracle
+            .concat('-')
+            .concat(BigInt.fromI32(preSevenDayIndex).toString())
+        )
+        if (preSevenDayData != null) {
+            priceSevenDayData.open = preSevenDayData.close
+        }
     } else {
         priceSevenDayData.close = price
         if (priceSevenDayData.high < price) {
